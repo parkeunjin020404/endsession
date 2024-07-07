@@ -21,11 +21,12 @@ class BoardDetailSerializer(serializers.ModelSerializer):
     comments = CommentSerializer(many=True, read_only=True)
     created_at = serializers.DateTimeField(format="%Y-%m-%d")
     #user = CustomUserDetailSerializer()
-    #nickname = serializers.SerializerMethodField()
+    nickname = serializers.SerializerMethodField()
     class Meta:
         model = Board
-        fields = ['id', 'user', 'title', 'body','created_at','comments']
-    
+        fields = ['id', 'user', 'nickname','title', 'body','created_at','comments']
+    def get_nickname(self, obj):
+        return obj.user.nickname
         
 
 class BoardCreateSerializer(serializers.ModelSerializer): #만들때
@@ -43,12 +44,12 @@ class BoardSimpleSerializer(serializers.ModelSerializer):
         return obj.user.nickname
 
 class BoardDetailSerializer2(serializers.ModelSerializer):
-    #user = CustomUserDetailSerializer()
-    #nickname = serializers.SerializerMethodField()
+    user = CustomUserDetailSerializer()
+    nickname = serializers.SerializerMethodField()
 
     class Meta:
         model = Board
-        fields = ['id', 'user','title','body','created_at','comments']
+        fields = ['id', 'user','nickname','title','body','created_at','comments']
 
     def get_nickname(self, obj):
         return obj.user.nickname
